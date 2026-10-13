@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f6f0e6">
+  <title>Mama's Daily Planner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#" aria-label="Mama's Daily Planner home">
+        <span class="brand-flower">❋</span>
+        <span><b>Daily Planner</b><small>A calmer day, one little step at a time ♡</small></span>
+      </a>
+
+      <nav class="nav-menu" aria-label="Navigasi utama">
+        <button class="nav-link active" data-page="home"><span>⌂</span> Home</button>
+        <button class="nav-link" data-page="calendar"><span>▦</span> Calendar</button>
+        <button class="nav-link" data-page="todos"><span>☑</span> To-do List</button>
+        <button class="nav-link" data-page="notes"><span>▤</span> Notes</button>
+        <button class="nav-link" data-page="groceries"><span>♧</span> Groceries</button>
+        <button class="nav-link" data-page="settings"><span>⚙</span> Settings</button>
+      </nav>
+
+      <div class="sidebar-note">
+        <span class="tiny-sprig">✧</span>
+        <p>You do so much for everyone, Mom.</p>
+        <p>Now it’s time for you. ♡</p>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <button class="menu-toggle" id="menuToggle" aria-label="Open menu">☰</button>
+        <label class="search-box">
+          <span>⌕</span>
+          <input id="searchInput" type="search" placeholder="Search tasks, notes, or events..." aria-label="Search">
+          <kbd>Enter</kbd>
+        </label>
+        <div class="welcome">
+          <div><span id="greeting">A warm hello to you, Mom!</span><small id="todayLabel"></small></div>
+          <div class="avatar" aria-hidden="true">♡</div>
+        </div>
+      </header>
+
+      <section class="page active-page" id="page-home">
+        <div class="hero">
+          <div class="hero-copy">
+            <span class="eyebrow">A LITTLE SPACE FOR YOU</span>
+            <h1>Hello, lovely soul <span>☼</span></h1>
+            <p>May today bring you little moments of joy. Don’t forget to save a little time for yourself. ♡</p>
+          </div>
+          <div class="hero-art" aria-hidden="true"><span>✿</span><i>♧</i><b>♡</b></div>
+        </div>
+
+        <div class="stats-grid">
+          <article class="stat-card"><div class="stat-icon">✓</div><div><span>Today’s tasks</span><strong id="statTasks">0 / 0</strong></div></article>
+          <article class="stat-card"><div class="stat-icon">▦</div><div><span>Calendar events</span><strong id="statEvents">0</strong></div></article>
+          <article class="stat-card"><div class="stat-icon">♧</div><div><span>Shopping list</span><strong id="statGroceries">0 item</strong></div></article>
+          <article class="stat-card"><div class="stat-icon">♡</div><div><span>Saved notes</span><strong id="statNotes">0</strong></div></article>
+        </div>
+
+        <div class="dashboard-grid">
+          <section class="panel schedule-panel">
+            <div class="panel-heading"><div><h2>Today’s Schedule</h2><p class="muted" id="scheduleDate"></p></div><button class="icon-button" data-open="calendar" aria-label="View calendar">↗</button></div>
+            <div id="todaySchedule" class="schedule-list"></div>
+            <button class="pill-button dark-button" id="addEventHome">＋ Add event</button>
+          </section>
+
+          <section class="panel todo-panel">
+            <div class="panel-heading"><div><h2>To-do List</h2><p class="muted">Every little step counts.</p></div><button class="icon-button" data-open="todos" aria-label="View all tasks">↗</button></div>
+            <form class="quick-form" id="quickTodoForm"><input id="quickTodoInput" maxlength="100" placeholder="Add a task..." aria-label="New task" required><button aria-label="Add task">＋</button></form>
+            <div id="homeTodoList" class="compact-list"></div>
+            <button class="text-button" data-open="todos">View all tasks →</button>
+          </section>
+
+          <section class="panel notes-panel">
+            <div class="panel-heading"><div><h2>Quick Notes</h2><p class="muted">Keep the little things in mind.</p></div><button class="icon-button" data-open="notes" aria-label="View notes">↗</button></div>
+            <div id="homeNotes" class="note-preview-list"></div>
+            <button class="pill-button dark-button" data-open="notes">＋ Add note</button>
+          </section>
+
+          <section class="panel mini-calendar-panel">
+            <div class="panel-heading"><div><h2>Calendar</h2><p class="muted" id="miniMonthLabel"></p></div><div class="calendar-arrows"><button class="icon-button" id="miniPrev" aria-label="Previous month">‹</button><button class="icon-button" id="miniNext" aria-label="Next month">›</button></div></div>
+            <div class="mini-calendar" id="miniCalendar"></div>
+          </section>
+
+          <section class="panel groceries-panel">
+            <div class="panel-heading"><div><h2>Grocery List</h2><p class="muted">So nothing gets left behind.</p></div><button class="icon-button" data-open="groceries" aria-label="View Shopping">↗</button></div>
+            <form class="quick-form" id="quickGroceryForm"><input id="quickGroceryInput" maxlength="80" placeholder="Add an item..." aria-label="New grocery item" required><button aria-label="Add item">＋</button></form>
+            <div id="homeGroceries" class="compact-list"></div>
+            <button class="text-button" data-open="groceries">View grocery list →</button>
+          </section>
+
+          <section class="panel focus-panel">
+            <div class="focus-landscape" aria-hidden="true"><span>☁</span><span>☼</span><span>♧</span></div>
+            <h2>Focus Mode</h2><p>Take a moment for yourself, Mom. You matter, too. ♡</p>
+            <button class="pill-button dark-button" id="focusStart">Start 15-minute focus</button>
+          </section>
+        </div>
+      </section>
+
+      <section class="page" id="page-calendar">
+        <div class="page-heading"><div><span class="eyebrow">PLAN WITH PEACE</span><h1>Calendar</h1><p>Plan your events, one day at a time.</p></div><button class="pill-button dark-button" id="addEventButton">＋ Add event</button></div>
+        <section class="panel calendar-full-panel">
+          <div class="calendar-toolbar"><button class="icon-button" id="calendarPrev" aria-label="Previous month">‹</button><h2 id="fullMonthLabel"></h2><button class="icon-button" id="calendarNext" aria-label="Next month">›</button><button class="pill-button light-button" id="calendarToday">Today</button></div>
+          <div class="full-calendar" id="fullCalendar"></div>
+        </section>
+        <section class="panel event-detail-panel"><div class="panel-heading"><div><h2 id="selectedDateTitle">Activities</h2><p class="muted">Choose a date to view its schedule.</p></div></div><div id="selectedEvents"></div></section>
+      </section>
+
+      <section class="page" id="page-todos">
+        <div class="page-heading"><div><span class="eyebrow">SMALL STEPS COUNT</span><h1>To-do List</h1><p>One step at a time, Mom. You don’t have to do everything at once.</p></div></div>
+        <section class="panel">
+          <form class="entry-form" id="todoForm"><input id="todoInput" maxlength="100" placeholder="What would you like to get done?" required><input id="todoDate" type="date" aria-label="Task date"><button class="pill-button dark-button">Add task ＋</button></form>
+          <div class="filter-row" id="todoFilters"><button class="filter-chip selected" data-filter="all">All</button><button class="filter-chip" data-filter="active">To do</button><button class="filter-chip" data-filter="done">Completed</button></div>
+          <div id="todoList" class="full-list"></div>
+        </section>
+      </section>
+
+      <section class="page" id="page-notes">
+        <div class="page-heading"><div><span class="eyebrow">THOUGHTS & REMINDERS</span><h1>Notes</h1><p>A little space for ideas, reminders, and things worth remembering.</p></div></div>
+        <div class="notes-layout">
+          <section class="panel note-editor"><h2 id="noteFormTitle">Write a new note</h2><form id="noteForm"><input id="noteTitle" maxlength="70" placeholder="Note title" required><textarea id="noteBody" rows="6" maxlength="1000" placeholder="Write down anything you want to remember..."></textarea><div class="form-actions"><button type="button" class="pill-button light-button" id="clearNote">Clear</button><button class="pill-button dark-button" id="saveNote">Save note ♡</button></div></form></section>
+          <section class="notes-board" id="notesBoard"></section>
+        </div>
+      </section>
+
+      <section class="page" id="page-groceries">
+        <div class="page-heading"><div><span class="eyebrow">A LITTLE LIST, A LIGHTER DAY</span><h1>Grocery List</h1><p>Write down what you need, then check it off as you shop.</p></div></div>
+        <section class="panel">
+          <form class="entry-form" id="groceryForm"><input id="groceryInput" maxlength="80" placeholder="Item name, such as eggs..." required><button class="pill-button dark-button">Add item ＋</button></form>
+          <div class="shopping-progress"><div><strong id="groceryProgressText">0 of 0 item completed</strong><span id="groceryProgressPercent">0%</span></div><div class="progress-track"><span id="groceryProgressBar"></span></div></div>
+          <div id="groceryList" class="full-list"></div>
+          <div class="list-footer"><span id="groceryRemaining"></span><button class="text-button" id="clearBought">Remove purchased items</button></div>
+        </section>
+      </section>
+
+      <section class="page" id="page-settings">
+        <div class="page-heading"><div><span class="eyebrow">MADE WITH LOVE</span><h1>Settings</h1><p>Personalize the planner to make it feel like your own.</p></div></div>
+        <section class="panel settings-panel">
+          <label class="setting-item"><span><strong>Display name</strong><small>The name shown on the home page.</small></span><input id="nameSetting" maxlength="30" value="Mom"></label>
+          <label class="setting-item"><span><strong>Encouraging message</strong><small>A little message to brighten your day.</small></span><input id="messageSetting" maxlength="140" value="May today bring you little moments of joy. Don’t forget to save a little time for yourself. ♡"></label>
+          <div class="setting-item"><span><strong>Planner data</strong><small>Download a backup or restore the sample data.</small></span><div class="setting-buttons"><button class="pill-button light-button" id="exportData">Export data</button><button class="pill-button light-button" id="resetDemo">Reset sample</button></div></div>
+          <p class="privacy-note">♡ Your data is saved in this browser on this device (localStorage), not sent to a server. If browser data is cleared, your planner data may be lost. Export a backup regularly.</p>
+        </section>
+      </section>
+
+      <footer class="footer-note">Made with love, just for you, Mom <span>♡</span></footer>
+    </main>
+  </div>
+
+  <dialog id="eventDialog" class="modal">
+    <form method="dialog" id="eventForm">
+      <div class="modal-heading"><div><span class="eyebrow">MAKE ROOM FOR WHAT MATTERS</span><h2 id="eventDialogTitle">Add an event</h2></div><button class="icon-button" value="cancel" aria-label="Close">×</button></div>
+      <input id="eventId" type="hidden"><label>Event name<input id="eventTitle" maxlength="100" placeholder="For example: Morning walk" required></label>
+      <div class="two-fields"><label>Date<input id="eventDate" type="date" required></label><label>Time<input id="eventTime" type="time" value="08:00" required></label></div>
+      <label>Notes (optional)<textarea id="eventDescription" rows="3" maxlength="250" placeholder="Any little details to remember..."></textarea></label>
+      <div class="modal-actions"><button type="button" class="pill-button light-button" id="deleteEvent" hidden>Delete</button><button type="button" class="pill-button light-button" id="cancelEvent">Cancel</button><button class="pill-button dark-button" value="save">Save event</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="focusDialog" class="modal focus-modal">
+    <form method="dialog"><button class="icon-button close-focus" value="close" aria-label="Close">×</button><span class="focus-heart">♡</span><span class="eyebrow">A MOMENT JUST FOR YOU</span><h2>Take a breath, Mom.</h2><p>For these few minutes, there is nothing to chase. Just be here for yourself.</p><div id="focusTimer" class="focus-timer">15:00</div><div class="focus-controls"><button type="button" class="pill-button light-button" id="focusPause">Pause</button><button type="button" class="pill-button dark-button" id="focusFinish">Finish</button></div><small id="focusMessage">Breathe slowly. You have already done so much today. ♡</small></form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
